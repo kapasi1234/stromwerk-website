@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt – STROMWERK | Erstgespräch & Energieanalyse anfragen</title>
+  <meta name="description" content="Nehmen Sie Kontakt auf – kostenloses Erstgespräch oder Energieanalyse anfragen. STROMWERK, Schillerstraße 7, 4600 Wels. Tel: +43 664 1262848">
+  <link rel="canonical" href="https://www.stromwerker.at/kontakt.html">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="STROMWERK Startseite">
+      <svg width="170" height="38" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="16,1 7,19 13,19 4,37 22,14 16,14" fill="#22d353"/>
+        <text x="30" y="27" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="19" fill="#ffffff" letter-spacing="-0.5">STROM</text>
+        <text x="108" y="27" font-family="Inter,system-ui,sans-serif" font-weight="300" font-size="19" fill="#7a95b0" letter-spacing="1">WERK</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Startseite</a></li>
+      <li><a href="leistungen.html">Leistungen</a></li>
+      <li><a href="ueber-uns.html">Über uns</a></li>
+      <li><a href="kontakt.html" class="active">Kontakt</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="kontakt.html" class="btn btn-primary btn-sm">Erstgespräch vereinbaren</a>
+    </div>
+    <button class="hamburger" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <ul class="nav-links">
+    <li><a href="index.html">Startseite</a></li>
+    <li><a href="leistungen.html">Leistungen</a></li>
+    <li><a href="ueber-uns.html">Über uns</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <a href="kontakt.html" class="btn btn-primary">Erstgespräch vereinbaren</a>
+</div>
+
+<!-- ── PAGE HERO ───────────────────────────────── -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Startseite</a>
+      <span>›</span>
+      <span>Kontakt</span>
+    </div>
+    <span class="section-label">Kontakt</span>
+    <h1>Lassen Sie uns über<br><em style="color:var(--green);font-style:normal;">Ihre Energie sprechen.</em></h1>
+    <p style="font-size:1.1rem;max-width:580px;margin-top:1rem;color:var(--text-muted);">Das erste Gespräch ist kostenlos und unverbindlich. Wir analysieren Ihre Situation und zeigen Ihnen, welches Einsparpotenzial in Ihrem Betrieb steckt.</p>
+  </div>
+</section>
+
+<!-- ── CONTACT SECTION ─────────────────────────── -->
+<section id="analyse" style="background:var(--navy-800);">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Contact form -->
+      <div class="form-card fade-up">
+        <h3 class="form-title">Anfrage senden</h3>
+        <p class="form-desc">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="vorname">Vorname *</label>
+              <input class="form-control" type="text" id="vorname" name="vorname" placeholder="Max" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="nachname">Nachname *</label>
+              <input class="form-control" type="text" id="nachname" name="nachname" placeholder="Mustermann" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="unternehmen">Unternehmen *</label>
+            <input class="form-control" type="text" id="unternehmen" name="unternehmen" placeholder="Muster GmbH" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="email">E-Mail *</label>
+              <input class="form-control" type="email" id="email" name="email" placeholder="max@muster.at" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="telefon">Telefon</label>
+              <input class="form-control" type="tel" id="telefon" name="telefon" placeholder="+43 ...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="anliegen">Ihr Anliegen *</label>
+            <select class="form-control" id="anliegen" name="anliegen" required>
+              <option value="" disabled selected>Bitte wählen…</option>
+              <option value="erstgespraech">Kostenloses Erstgespräch</option>
+              <option value="energieanalyse">Energieanalyse anfragen</option>
+              <option value="batteriespeicher">Batteriespeicher</option>
+              <option value="photovoltaik">Photovoltaik & Ladeinfrastruktur</option>
+              <option value="elektroplanung">Elektroplanung & Engineering</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="verbrauch">Jährlicher Energieverbrauch (optional)</label>
+            <select class="form-control" id="verbrauch" name="verbrauch">
+              <option value="" disabled selected>Ungefähre Größenordnung…</option>
+              <option value="unter50">Unter 50.000 kWh/Jahr</option>
+              <option value="50-200">50.000 – 200.000 kWh/Jahr</option>
+              <option value="200-500">200.000 – 500.000 kWh/Jahr</option>
+              <option value="500-1000">500.000 – 1 Mio. kWh/Jahr</option>
+              <option value="ueber1000">Über 1 Mio. kWh/Jahr</option>
+              <option value="unknown">Nicht bekannt</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nachricht">Ihre Nachricht</label>
+            <textarea class="form-control" id="nachricht" name="nachricht" placeholder="Beschreiben Sie kurz Ihre Situation, Ihre Herausforderungen oder Ihre Fragen…"></textarea>
+          </div>
+          <div class="form-group" style="margin-top:.5rem;">
+            <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;">
+              <input type="checkbox" name="datenschutz" required style="margin-top:.2rem;accent-color:var(--green);width:16px;height:16px;flex-shrink:0;">
+              <span style="font-size:.8rem;color:var(--text-muted);">Ich habe die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu. *</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Anfrage senden
+          </button>
+        </form>
+
+        <div id="formSuccess" class="form-success">
+          <h3>✓ Danke für Ihre Anfrage!</h3>
+          <p>Wir haben Ihre Nachricht erhalten und melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+        </div>
+      </div>
+
+      <!-- Contact info -->
+      <div>
+        <span class="section-label fade-up">Direkt erreichbar</span>
+        <h2 class="section-title fade-up d1" style="font-size:1.5rem;margin-bottom:1.5rem;">Wir sind für Sie da.</h2>
+        <div class="contact-info fade-up d2">
+          <div class="contact-item">
+            <div class="ci-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 5.18 2 2 0 015 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 10.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 17.92z"/></svg>
+            </div>
+            <div>
+              <h4>Telefon</h4>
+              <a href="tel:+436641262848">+43 664 1262848</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <h4>E-Mail</h4>
+              <a href="mailto:hetzmannseder@stromwerker.at">hetzmannseder@stromwerker.at</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4>Adresse</h4>
+              <p>Schillerstraße 7<br>4600 Wels, Österreich</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <h4>Reaktionszeit</h4>
+              <p>In der Regel innerhalb von 24 Stunden</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map placeholder -->
+        <div class="map-placeholder fade-up d3">
+          <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Schillerstraße 7, 4600 Wels</span>
+          <a href="https://maps.google.com/?q=Schillerstraße+7,+4600+Wels" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="margin-top:.5rem;">In Google Maps öffnen</a>
+        </div>
+
+        <!-- Info box -->
+        <div style="margin-top:1.5rem;padding:1.5rem;background:var(--green-glow);border:1px solid var(--green-border);border-radius:var(--radius);font-size:.875rem;color:var(--text-muted);" class="fade-up">
+          <strong style="color:var(--green);display:block;margin-bottom:.5rem;">Das erwartet Sie:</strong>
+          Im Erstgespräch analysieren wir gemeinsam Ihre Energiesituation, identifizieren erste Einsparpotenziale und besprechen mögliche Maßnahmen – ohne Verpflichtung, ohne Verkaufsdruck.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ─────────────────────────────────────── -->
+<section style="background:var(--navy-700);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:3rem;">
+      <span class="section-label fade-up">Häufige Fragen</span>
+      <h2 class="section-title fade-up d1">Was Sie wissen sollten.</h2>
+    </div>
+    <div style="max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;">
+      <details style="background:var(--navy-800);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;" class="fade-up">
+        <summary style="color:#fff;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+          Ist das Erstgespräch wirklich kostenlos?
+          <span style="color:var(--green);font-size:1.2rem;">+</span>
+        </summary>
+        <p style="margin-top:1rem;font-size:.875rem;">Ja – das erste Beratungsgespräch ist vollständig kostenlos und unverbindlich. Wir nehmen uns die Zeit, Ihre Situation zu verstehen, bevor wir Ihnen konkrete Empfehlungen machen.</p>
+      </details>
+      <details style="background:var(--navy-800);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;" class="fade-up d1">
+        <summary style="color:#fff;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+          Wie läuft eine Energieanalyse ab?
+          <span style="color:var(--green);font-size:1.2rem;">+</span>
+        </summary>
+        <p style="margin-top:1rem;font-size:.875rem;">Nach dem Erstgespräch benötigen wir Ihre Lastgangdaten (erhältlich beim Netzbetreiber). Auf Basis dieser Daten erstellen wir eine detaillierte Analyse mit Einsparpotenzial und konkreten Maßnahmenempfehlungen – inklusive Wirtschaftlichkeitsberechnung.</p>
+      </details>
+      <details style="background:var(--navy-800);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;" class="fade-up d2">
+        <summary style="color:#fff;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+          Für welche Unternehmensgrößen ist STROMWERK geeignet?
+          <span style="color:var(--green);font-size:1.2rem;">+</span>
+        </summary>
+        <p style="margin-top:1rem;font-size:.875rem;">Wir arbeiten mit Gewerbebetrieben, Industrieunternehmen, Hotels, landwirtschaftlichen Betrieben und Logistikunternehmen. Sinnvoll ist unser Angebot vor allem für Betriebe mit einem Jahresverbrauch ab ca. 50.000 kWh – aber auch kleinere Betriebe können von gezielten Maßnahmen profitieren.</p>
+      </details>
+      <details style="background:var(--navy-800);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;" class="fade-up d3">
+        <summary style="color:#fff;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+          Wie schnell bekommen wir ein Angebot?
+          <span style="color:var(--green);font-size:1.2rem;">+</span>
+        </summary>
+        <p style="margin-top:1rem;font-size:.875rem;">Nach Besichtigung und Datenerhebung erhalten Sie in der Regel innerhalb von circa 14 Tagen ein detailliertes Angebot mit allen Leistungen, Kosten und der Wirtschaftlichkeitsberechnung.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <svg width="150" height="34" viewBox="0 0 150 34" fill="none" aria-hidden="true">
+            <polygon points="14,1 6,17 11,17 3,33 19,12 13,12" fill="#22d353"/>
+            <text x="27" y="24" font-family="Inter,system-ui" font-weight="800" font-size="17" fill="#ffffff">STROM</text>
+            <text x="97" y="24" font-family="Inter,system-ui" font-weight="300" font-size="17" fill="#7a95b0" letter-spacing="1">WERK</text>
+          </svg>
+        </a>
+        <p>Intelligente Energiesysteme für Gewerbe und Industrie. Wir entwickeln wirtschaftliche Energielösungen – keine Produkte.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Leistungen</h5>
+        <ul>
+          <li><a href="leistungen.html#energieberatung">Energieberatung</a></li>
+          <li><a href="leistungen.html#batteriespeicher">Batteriespeicher</a></li>
+          <li><a href="leistungen.html#photovoltaik">Photovoltaik & E-Mobility</a></li>
+          <li><a href="leistungen.html#elektroplanung">Elektroplanung</a></li>
+          <li><a href="leistungen.html#umsetzung">Umsetzung & Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Unternehmen</h5>
+        <ul>
+          <li><a href="ueber-uns.html">Über uns</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Kontakt</h5>
+        <ul class="footer-contact-list">
+          <li>Schillerstraße 7, 4600 Wels</li>
+          <li><a href="tel:+436641262848">+43 664 1262848</a></li>
+          <li><a href="mailto:hetzmannseder@stromwerker.at">hetzmannseder@stromwerker.at</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 SRW Solarenergie GmbH – Die Stromwerker. Alle Rechte vorbehalten.</p>
+      <div class="footer-legal">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
