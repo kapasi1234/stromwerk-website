@@ -3,357 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Referenzen – STROMWERK | Realisierte Projekte in Oberösterreich</title>
-  <meta name="description" content="Unsere realisierten Projekte in Oberösterreich: Photovoltaikanlagen, Elektroinstallation und Energiesysteme für Gewerbe und Industrie – von Shell bis Weixelbaumer.">
-  <link rel="canonical" href="https://www.stromwerker.at/referenzen.html">
+  <title>Referenzen – STROMWERK | SRW Solarenergie GmbH</title>
+  <meta name="description" content="19 realisierte Energieprojekte in Österreich.">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
   <style>
-    /* ── Referenzen-specific styles ── */
-    .ref-stats {
-      background: var(--navy-700);
-      border-bottom: 1px solid var(--border);
-      padding: 2rem 0;
-    }
-    .ref-stats-inner {
-      display: flex;
-      gap: 0;
-      align-items: stretch;
-    }
-    .ref-stat-item {
-      flex: 1;
-      text-align: center;
-      padding: 1rem 2rem;
-      border-right: 1px solid var(--border);
-    }
-    .ref-stat-item:last-child { border-right: none; }
-    .ref-stat-num {
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: var(--green);
-      line-height: 1;
-      display: block;
-    }
-    .ref-stat-lbl {
-      font-size: .78rem;
-      color: var(--text-muted);
-      margin-top: .3rem;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      display: block;
-    }
-
-    /* ── Project grid ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      background: var(--border);
-    }
-
-    .project-card {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      background: var(--navy-900);
-      aspect-ratio: 4/3;
-    }
-    .project-card:first-child {
-      grid-column: 1 / -1;
-      aspect-ratio: 21/9;
-    }
-
-    .project-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
-      filter: brightness(.85);
-    }
-    .project-card:hover .project-img {
-      transform: scale(1.04);
-      filter: brightness(.7);
-    }
-
-    .project-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(6,15,30,.95) 0%,
-        rgba(6,15,30,.4) 50%,
-        transparent 100%
-      );
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 2rem;
-      transition: var(--t);
-    }
-
-    .project-location {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      background: var(--green-glow);
-      border: 1px solid var(--green-border);
-      color: var(--green);
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: .25rem .7rem;
-      border-radius: 100px;
-      margin-bottom: .75rem;
-      width: fit-content;
-    }
-    .project-location svg { flex-shrink: 0; }
-
-    .project-title {
-      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: .5rem;
-      line-height: 1.2;
-    }
-    .project-card:first-child .project-title {
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-    }
-
-    .project-desc {
-      font-size: .85rem;
-      color: rgba(200,216,232,.8);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      max-width: 560px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .project-meta {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      flex-wrap: wrap;
-    }
-    .project-tag {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.15);
-      color: rgba(255,255,255,.8);
-      font-size: .68rem;
-      font-weight: 600;
-      padding: .2rem .6rem;
-      border-radius: 100px;
-      letter-spacing: .04em;
-    }
-    .project-count {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: .35rem;
-      font-size: .75rem;
-      color: rgba(200,216,232,.6);
-    }
-
-    .project-open-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(.85);
-      background: var(--green);
-      color: var(--navy-900);
-      border: none;
-      border-radius: 100px;
-      padding: .75rem 1.75rem;
-      font-weight: 700;
-      font-size: .85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      opacity: 0;
-      transition: opacity .3s ease, transform .3s ease;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    .project-card:hover .project-open-btn {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      pointer-events: all;
-    }
-
-    /* ── Lightbox ── */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(4, 10, 20, .97);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s ease;
-    }
-    .lightbox.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .lb-header {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(4,10,20,.9), transparent);
-      z-index: 2;
-    }
-    .lb-project-name {
-      font-size: .9rem;
-      font-weight: 600;
-      color: #fff;
-    }
-    .lb-counter {
-      font-size: .8rem;
-      color: var(--text-muted);
-      margin-left: auto;
-      margin-right: 1.5rem;
-    }
-    .lb-close {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.15);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--t);
-      flex-shrink: 0;
-    }
-    .lb-close:hover { background: rgba(255,255,255,.2); }
-
-    .lb-stage {
-      flex: 1;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5rem 5rem 8rem;
-      position: relative;
-    }
-    .lb-img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.6);
-      transition: opacity .25s ease;
-    }
-    .lb-img.fading { opacity: 0; }
-
-    .lb-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--t);
-      z-index: 2;
-    }
-    .lb-arrow:hover { background: var(--green); border-color: var(--green); color: var(--navy-900); }
-    .lb-prev { left: 1.25rem; }
-    .lb-next { right: 1.25rem; }
-    .lb-arrow:disabled { opacity: .2; cursor: default; pointer-events: none; }
-
-    .lb-thumbnails {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 1rem 5rem;
-      background: linear-gradient(to top, rgba(4,10,20,.95), transparent);
-      display: flex;
-      gap: .5rem;
-      justify-content: center;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .lb-thumbnails::-webkit-scrollbar { display: none; }
-    .lb-thumb {
-      width: 64px;
-      height: 48px;
-      object-fit: cover;
-      border-radius: 3px;
-      cursor: pointer;
-      opacity: .45;
-      border: 2px solid transparent;
-      transition: var(--t);
-      flex-shrink: 0;
-    }
-    .lb-thumb.active, .lb-thumb:hover { opacity: 1; border-color: var(--green); }
-
-    /* ── Map section ── */
-    .map-section { background: var(--navy-900); }
-    .map-locations {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .map-loc {
-      background: var(--navy-700);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      cursor: pointer;
-      transition: var(--t);
-    }
-    .map-loc:hover { border-color: var(--green-border); transform: translateY(-3px); }
-    .map-loc-pin { color: var(--green); margin-bottom: .5rem; }
-    .map-loc h4 { font-size: .9rem; margin-bottom: .25rem; }
-    .map-loc p { font-size: .78rem; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .projects-grid { grid-template-columns: 1fr; gap: 2px; }
-      .project-card:first-child { grid-column: 1; aspect-ratio: 4/3; }
-      .ref-stats-inner { flex-wrap: wrap; }
-      .ref-stat-item { min-width: 50%; border-bottom: 1px solid var(--border); }
-      .lb-stage { padding: 4.5rem 1rem 7rem; }
-      .lb-thumbnails { padding: 1rem; }
-      .lb-thumb { width: 48px; height: 36px; }
-      .lb-arrow { width: 38px; height: 38px; }
-      .lb-prev { left: .5rem; }
-      .lb-next { right: .5rem; }
-      .map-locations { grid-template-columns: 1fr 1fr; }
-      .project-open-btn { display: none; }
-    }
+    .map-section{background:var(--navy-800);padding:0 0 4rem}
+    .map-section .section-header{padding:4rem 0 2rem}
+    .map-section .section-label{color:var(--green)}
+    .map-section h2{color:#0f172a}
+    .map-section p{color:var(--text-muted)}
+    #ref-map{height:480px;width:100%;border-radius:var(--radius);border:1px solid rgba(255,255,255,.08);overflow:hidden}
+    .leaflet-container{background:#1a1a2e!important}
+    .map-pin{width:14px;height:14px;border-radius:50%;background:#22d353;border:2px solid #fff;box-shadow:0 0 0 0 rgba(34,211,83,.6);animation:pin-pulse 2.2s infinite}
+    @keyframes pin-pulse{0%{box-shadow:0 0 0 0 rgba(34,211,83,.6)}70%{box-shadow:0 0 0 10px rgba(34,211,83,0)}100%{box-shadow:0 0 0 0 rgba(34,211,83,0)}}
+    .leaflet-popup-content-wrapper{background:#1a2f4a!important;border:1px solid rgba(34,211,83,.2)!important;border-radius:8px!important;box-shadow:0 8px 32px rgba(0,0,0,.4)!important;color:#fff!important}
+    .leaflet-popup-tip{background:#1a2f4a!important}
+    .leaflet-popup-content{margin:12px 16px!important;font-size:.85rem}
+    .leaflet-popup-content strong{color:#fff;font-size:.9rem}
+    .leaflet-popup-content span{color:#9ab0c8;display:block;margin-top:2px}
+    .pop-cat{display:inline-block;margin-top:6px;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:20px}
+    .pop-cat.shell{background:rgba(34,211,83,.15);color:#22d353;border:1px solid rgba(34,211,83,.3)}
+    .pop-cat.gewerbe{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
+    .leaflet-control-attribution{background:rgba(6,15,30,.8)!important;color:#7a95b0!important}
+    .leaflet-control-attribution a{color:#60a5fa!important}
+    .filter-bar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+    .filter-btn{padding:.45rem 1.2rem;border-radius:2rem;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:all .2s}
+    .filter-btn:hover{border-color:var(--green);color:#0f172a}
+    .filter-btn.active{background:var(--green);border-color:var(--green);color:#fff}
+    .filter-count{font-size:.72rem;background:rgba(0,0,0,.08);padding:1px 7px;border-radius:20px;margin-left:4px}
+    .filter-btn.active .filter-count{background:rgba(0,0,0,.2)}
+    .projects-section{background:var(--navy-800);padding:4rem 0 5rem}
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:1024px){.projects-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.projects-grid{grid-template-columns:1fr}}
+    .project-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+    .project-card:hover{transform:translateY(-4px);border-color:rgba(34,211,83,.5);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+    .project-card.hidden{display:none}
+    .card-img{aspect-ratio:16/10;overflow:hidden;position:relative}
+    .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;display:block}
+    .project-card:hover .card-img img{transform:scale(1.05)}
+    .card-img-count{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);color:#fff;font-size:.72rem;padding:3px 9px;border-radius:20px;backdrop-filter:blur(4px)}
+    .card-body{padding:1.1rem 1.25rem 1.3rem}
+    .card-cat{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+    .card-cat.shell{color:var(--green-dark)}
+    .card-cat.gewerbe{color:#2563eb}
+    .card-title{font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 .25rem}
+    .card-loc{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.3rem}
+    .card-desc{font-size:.8rem;color:var(--text-muted);margin-top:.6rem;line-height:1.5}
+    .ref-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:2.5rem}
+    .ref-stat{padding:1.5rem;text-align:center;border-right:1px solid var(--border);background:#fff}
+    .ref-stat:last-child{border-right:none}
+    .ref-stat-num{font-size:2rem;font-weight:800;color:var(--green-dark);line-height:1}
+    .ref-stat-lbl{font-size:.75rem;color:var(--text-muted);margin-top:.35rem;letter-spacing:.04em}
+    @media(max-width:768px){.ref-stats{grid-template-columns:repeat(2,1fr)}.ref-stat:nth-child(2){border-right:none}.ref-stat:nth-child(3){border-top:1px solid var(--border)}.ref-stat:nth-child(4){border-top:1px solid var(--border);border-right:none}}
+    .pdf-cta{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;margin-top:3rem;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+    .pdf-cta-text h3{font-size:1.1rem;color:#0f172a;margin-bottom:.35rem}
+    .pdf-cta-text p{font-size:.85rem;color:var(--text-muted)}
+    .pdf-icon{color:var(--green-dark);flex-shrink:0}
+    @media(max-width:640px){.pdf-cta{flex-direction:column;text-align:center}}
+    .lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(4,9,20,.95);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center}
+    .lightbox.open{display:flex}
+    .lb-close{position:fixed;top:1.25rem;right:1.5rem;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.5rem;cursor:pointer;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .lb-close:hover{background:rgba(255,255,255,.2)}
+    .lb-main{position:relative;max-width:90vw;max-height:78vh;display:flex;align-items:center}
+    .lb-main img{max-width:90vw;max-height:78vh;object-fit:contain;border-radius:8px;display:block}
+    .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;font-size:1.4rem;cursor:pointer;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:2}
+    .lb-arrow:hover{background:rgba(255,255,255,.25)}
+    .lb-prev{left:-64px}.lb-next{right:-64px}
+    .lb-caption{margin-top:.75rem;color:#fff;font-size:.9rem;font-weight:600;text-align:center}
+    .lb-sub{color:#9ab0c8;font-size:.78rem;margin-top:.2rem;text-align:center}
+    .lb-thumbs{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;max-width:90vw}
+    .lb-thumb{width:56px;height:40px;object-fit:cover;border-radius:4px;cursor:pointer;opacity:.5;border:2px solid transparent;transition:opacity .2s,border-color .2s}
+    .lb-thumb.active{opacity:1;border-color:var(--green)}
+    @media(max-width:768px){.lb-prev{left:-44px}.lb-next{right:-44px}.lb-arrow{width:38px;height:38px;font-size:1rem}}
+    .project-card.star{grid-column:1/-1;display:grid;grid-template-columns:1.4fr 1fr}
+    .project-card.star .card-img{aspect-ratio:unset;min-height:280px}
+    .project-card.star .card-body{padding:2rem;display:flex;flex-direction:column;justify-content:center}
+    .project-card.star .card-title{font-size:1.35rem}
+    .project-card.star .card-desc{font-size:.88rem;line-height:1.65}
+    .star-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,211,83,.1);border:1px solid rgba(34,211,83,.3);color:var(--green-dark);font-size:.72rem;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:.75rem;width:fit-content}
+    @media(max-width:768px){.project-card.star{grid-template-columns:1fr}.project-card.star .card-img{min-height:220px}}
   </style>
 </head>
 <body>
-
-<!-- ── NAVBAR ──────────────────────────────────── -->
 <nav class="navbar">
   <div class="container">
-    <a href="index.html" class="logo" aria-label="STROMWERK Startseite">
-      <svg width="170" height="38" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <a href="index.html" class="logo">
+      <svg width="170" height="38" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="16,1 7,19 13,19 4,37 22,14 16,14" fill="#22d353"/>
-        <text x="30" y="27" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="19" fill="#ffffff" letter-spacing="-0.5">STROM</text>
-        <text x="108" y="27" font-family="Inter,system-ui,sans-serif" font-weight="300" font-size="19" fill="#7a95b0" letter-spacing="1">WERK</text>
+        <text x="30" y="27" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="19" fill="#0f172a" letter-spacing="-0.5">STROM</text>
+        <text x="108" y="27" font-family="Inter,system-ui,sans-serif" font-weight="300" font-size="19" fill="#64748b" letter-spacing="1">WERK</text>
       </svg>
     </a>
     <ul class="nav-links">
@@ -363,12 +104,8 @@
       <li><a href="ueber-uns.html">Über uns</a></li>
       <li><a href="kontakt.html">Kontakt</a></li>
     </ul>
-    <div class="nav-right">
-      <a href="kontakt.html" class="btn btn-primary btn-sm">Erstgespräch vereinbaren</a>
-    </div>
-    <button class="hamburger" aria-label="Menü öffnen">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right"><a href="kontakt.html" class="btn btn-primary btn-sm">Erstgespräch vereinbaren</a></div>
+    <button class="hamburger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu">
@@ -381,388 +118,164 @@
   </ul>
   <a href="kontakt.html" class="btn btn-primary">Erstgespräch vereinbaren</a>
 </div>
-
-<!-- ── PAGE HERO ───────────────────────────────── -->
 <section class="page-hero">
   <div class="container">
-    <div class="breadcrumb">
-      <a href="index.html">Startseite</a>
-      <span>›</span>
-      <span>Referenzen</span>
+    <div class="breadcrumb"><a href="index.html">Startseite</a><span>›</span><span>Referenzen</span></div>
+    <span class="section-label">Unsere Projekte</span>
+    <h1>Realisierte Projekte<br><span style="color:var(--green-dark);">in ganz Österreich</span></h1>
+    <p style="color:var(--text-muted);margin-top:1rem;max-width:560px;">Von der Einzelinstallation bis zum österreichweiten Rollout – jedes Projekt schlüsselfertig, termingerecht und auf den Punkt.</p>
+    <div class="ref-stats">
+      <div class="ref-stat"><div class="ref-stat-num">242</div><div class="ref-stat-lbl">Referenzprojekte gesamt</div></div>
+      <div class="ref-stat"><div class="ref-stat-num">30+</div><div class="ref-stat-lbl">Shell Tankstellen</div></div>
+      <div class="ref-stat"><div class="ref-stat-num">9</div><div class="ref-stat-lbl">Bundesländer</div></div>
+      <div class="ref-stat"><div class="ref-stat-num">100%</div><div class="ref-stat-lbl">Schlüsselfertig</div></div>
     </div>
-    <span class="section-label">Unsere Referenzen</span>
-    <h1>Realisierte Projekte<br><em style="color:var(--green);font-style:normal;">in Oberösterreich.</em></h1>
-    <p style="font-size:1.1rem;max-width:600px;margin-top:1rem;color:var(--text-muted);">Von der Shell Tankstelle bis zum Großindustriebetrieb – jedes Projekt steht für unsere Überzeugung: Qualität, Wirtschaftlichkeit und saubere Umsetzung aus einer Hand.</p>
   </div>
 </section>
-
-<!-- ── STATS BAR ────────────────────────────────── -->
-<div class="ref-stats">
-  <div class="container">
-    <div class="ref-stats-inner">
-      <div class="ref-stat-item">
-        <span class="ref-stat-num">4</span>
-        <span class="ref-stat-lbl">Referenzprojekte</span>
-      </div>
-      <div class="ref-stat-item">
-        <span class="ref-stat-num">OÖ</span>
-        <span class="ref-stat-lbl">Oberösterreich</span>
-      </div>
-      <div class="ref-stat-item">
-        <span class="ref-stat-num">3</span>
-        <span class="ref-stat-lbl">Standorte in Wels</span>
-      </div>
-      <div class="ref-stat-item">
-        <span class="ref-stat-num">100%</span>
-        <span class="ref-stat-lbl">Schlüsselfertig</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── PROJECT GRID ─────────────────────────────── -->
-<div class="projects-grid">
-
-  <!-- 1. Weixelbaumer – HERO card (spans full width) -->
-  <div class="project-card fade-up"
-       data-project="weixelbaumer"
-       data-images='["img/weixelbaumer-wels/01.jpg"]'
-       data-title="Weixelbaumer GmbH, Wels"
-       onclick="openLightbox(this)">
-    <img class="project-img"
-         src="img/weixelbaumer-wels/01.jpg"
-         alt="Photovoltaikanlage Weixelbaumer GmbH Wels – Drohnenaufnahme"
-         loading="eager">
-    <div class="project-overlay">
-      <div class="project-location">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Wels, Oberösterreich
-      </div>
-      <h2 class="project-title">Weixelbaumer GmbH</h2>
-      <p class="project-desc">Großflächige Photovoltaikanlage auf den Hallendächern des renommierten Welser Bauunternehmens. Weithin sichtbares Statement für nachhaltige Eigenversorgung – aufgenommen aus der Vogelperspektive.</p>
-      <div class="project-meta">
-        <span class="project-tag">Photovoltaik</span>
-        <span class="project-tag">Industrie</span>
-        <span class="project-tag">Großanlage</span>
-        <span class="project-count">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          1 Bild
-        </span>
-      </div>
-    </div>
-    <button class="project-open-btn" tabindex="-1">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-      Projekt ansehen
-    </button>
-  </div>
-
-  <!-- 2. Shell Tankstelle -->
-  <div class="project-card fade-up"
-       data-project="shell"
-       data-images='["img/shell-tankstelle/04.jpg","img/shell-tankstelle/03.jpg","img/shell-tankstelle/01.jpg","img/shell-tankstelle/02.jpg","img/shell-tankstelle/05.jpg"]'
-       data-title="Shell Tankstelle, Oberösterreich"
-       onclick="openLightbox(this)">
-    <img class="project-img"
-         src="img/shell-tankstelle/04.jpg"
-         alt="Photovoltaikanlage Shell Tankstelle Oberösterreich"
-         loading="lazy">
-    <div class="project-overlay">
-      <div class="project-location">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Oberösterreich
-      </div>
-      <h2 class="project-title">Shell Tankstelle</h2>
-      <p class="project-desc">Vollflächige Aufdach-PV-Anlage auf einem Shell Tankstellengebäude inkl. Fronius-Wechselrichterinstallation und vollständiger Inbetriebnahme mit dem Netzbetreiber.</p>
-      <div class="project-meta">
-        <span class="project-tag">Photovoltaik</span>
-        <span class="project-tag">Wechselrichter</span>
-        <span class="project-tag">Gewerbe</span>
-        <span class="project-count">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          5 Bilder
-        </span>
-      </div>
-    </div>
-    <button class="project-open-btn" tabindex="-1">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-      Galerie öffnen
-    </button>
-  </div>
-
-  <!-- 3. St. Valentin Fitnessstudio -->
-  <div class="project-card fade-up d1"
-       data-project="stvalentin"
-       data-images='["img/st-valentin/01.jpg","img/st-valentin/02.jpg","img/st-valentin/05.jpg","img/st-valentin/03.jpg","img/st-valentin/04.jpg"]'
-       data-title="Fitnessstudio St. Valentin"
-       onclick="openLightbox(this)">
-    <img class="project-img"
-         src="img/st-valentin/01.jpg"
-         alt="Fitnessstudio St. Valentin – Elektroinstallation und Photovoltaik"
-         loading="lazy">
-    <div class="project-overlay">
-      <div class="project-location">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        St. Valentin, Niederösterreich
-      </div>
-      <h2 class="project-title">Fitnessstudio St. Valentin</h2>
-      <p class="project-desc">Komplettpaket: LED-Beleuchtung, vollständige Elektroinstallation, Schaltschranktechnik, Huawei-Wechselrichter und PV-Anlage für ein modernes Fitnessstudio – alles aus einer Hand.</p>
-      <div class="project-meta">
-        <span class="project-tag">Elektroinstallation</span>
-        <span class="project-tag">Photovoltaik</span>
-        <span class="project-tag">LED-Beleuchtung</span>
-        <span class="project-count">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          5 Bilder
-        </span>
-      </div>
-    </div>
-    <button class="project-open-btn" tabindex="-1">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-      Galerie öffnen
-    </button>
-  </div>
-
-  <!-- 4. uWEG Industries -->
-  <div class="project-card fade-up d2"
-       data-project="uweg"
-       data-images='["img/uweg-wels/02.jpg","img/uweg-wels/03.jpg","img/uweg-wels/01.jpg"]'
-       data-title="uWEG Industries, Wels"
-       onclick="openLightbox(this)">
-    <img class="project-img"
-         src="img/uweg-wels/02.jpg"
-         alt="uWEG Industries Wels – Photovoltaikanlage Drohnenaufnahme"
-         loading="lazy">
-    <div class="project-overlay">
-      <div class="project-location">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Wels, Oberösterreich
-      </div>
-      <h2 class="project-title">uWEG Industries</h2>
-      <p class="project-desc">Vollflächige Photovoltaikanlage auf dem Hallendach des Welser Industriebetriebs uWEG – direkt an der Traun gelegen. Drohnenaufnahme zeigt die Dimension der Anlage.</p>
-      <div class="project-meta">
-        <span class="project-tag">Photovoltaik</span>
-        <span class="project-tag">Industrie</span>
-        <span class="project-tag">Wels</span>
-        <span class="project-count">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          3 Bilder
-        </span>
-      </div>
-    </div>
-    <button class="project-open-btn" tabindex="-1">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-      Galerie öffnen
-    </button>
-  </div>
-
-</div><!-- /projects-grid -->
-
-<!-- ── LIGHTBOX ─────────────────────────────────── -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Bildergalerie">
-  <div class="lb-header">
-    <span class="lb-project-name" id="lbTitle"></span>
-    <span class="lb-counter" id="lbCounter"></span>
-    <button class="lb-close" onclick="closeLightbox()" aria-label="Schließen">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <div class="lb-stage">
-    <button class="lb-arrow lb-prev" id="lbPrev" onclick="navigate(-1)" aria-label="Vorheriges Bild">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <img class="lb-img" id="lbImg" src="" alt="">
-    <button class="lb-arrow lb-next" id="lbNext" onclick="navigate(1)" aria-label="Nächstes Bild">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </div>
-  <div class="lb-thumbnails" id="lbThumbs"></div>
-</div>
-
-<!-- ── STANDORTE ─────────────────────────────────── -->
 <section class="map-section">
   <div class="container">
-    <span class="section-label fade-up">Wo wir arbeiten</span>
-    <h2 class="section-title fade-up d1">Unsere Standorte<br>in Oberösterreich.</h2>
-    <div class="map-locations">
-      <div class="map-loc fade-up" onclick="openLightbox(document.querySelector('[data-project=weixelbaumer]'))">
-        <div class="map-loc-pin">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <h4>Wels</h4>
-        <p>Weixelbaumer GmbH – Industriedach-PV</p>
-      </div>
-      <div class="map-loc fade-up d1" onclick="openLightbox(document.querySelector('[data-project=uweg]'))">
-        <div class="map-loc-pin">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <h4>Wels</h4>
-        <p>uWEG Industries – Hallendach-PV an der Traun</p>
-      </div>
-      <div class="map-loc fade-up d2" onclick="openLightbox(document.querySelector('[data-project=shell]'))">
-        <div class="map-loc-pin">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <h4>Oberösterreich</h4>
-        <p>Shell Tankstelle – Aufdach-PV mit Fronius</p>
-      </div>
-      <div class="map-loc fade-up d3" onclick="openLightbox(document.querySelector('[data-project=stvalentin]'))">
-        <div class="map-loc-pin">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <h4>St. Valentin</h4>
-        <p>Fitnessstudio – Komplettinstallation</p>
-      </div>
+    <div class="section-header">
+      <span class="section-label">Standortkarte</span>
+      <h2>Unsere Projekte auf einen Blick</h2>
+      <p>Klicken Sie auf einen Marker für Projektdetails.</p>
     </div>
+    <div id="ref-map"></div>
   </div>
 </section>
-
-<!-- ── CTA ─────────────────────────────────────── -->
-<section class="cta-block">
+<section class="projects-section">
   <div class="container">
-    <span class="section-label fade-up">Ihr Projekt</span>
-    <h2 class="fade-up d1">Werden Sie unser nächstes<br>Referenzprojekt.</h2>
-    <p class="section-sub fade-up d2">Egal ob Tankstelle, Industriehalle oder Fitnessstudio – wir entwickeln die passende Energielösung für Ihr Unternehmen. Kostenlos, unverbindlich, mit Wirtschaftlichkeitsberechnung.</p>
-    <div class="cta-actions fade-up d3">
-      <a href="kontakt.html" class="btn btn-primary">Jetzt Erstgespräch vereinbaren</a>
-      <a href="leistungen.html" class="btn btn-outline">Unsere Leistungen</a>
+    <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:1.5rem;">Aus unserem Portfolio von <strong style="color:#0f172a;">242 Referenzprojekten</strong> zeigen wir hier eine Auswahl mit Bildmaterial.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Alle <span class="filter-count">19</span></button>
+      <button class="filter-btn" data-filter="shell">Shell Tankstellen <span class="filter-count">16</span></button>
+      <button class="filter-btn" data-filter="gewerbe">Gewerbe &amp; Industrie <span class="filter-count">3</span></button>
+    </div>
+    <div class="projects-grid" id="projects-grid"></div>
+    <div class="pdf-cta">
+      <div class="pdf-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+      <div class="pdf-cta-text">
+        <h3>Referenzmappe herunterladen</h3>
+        <p>Alle 19 Projekte mit Fotos, technischen Details und Standortangaben.</p>
+      </div>
+      <a href="referenzmappe.pdf" class="btn btn-primary" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF herunterladen</a>
     </div>
   </div>
 </section>
-
-<!-- ── FOOTER ──────────────────────────────────── -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <svg width="150" height="34" viewBox="0 0 150 34" fill="none" aria-hidden="true">
-            <polygon points="14,1 6,17 11,17 3,33 19,12 13,12" fill="#22d353"/>
-            <text x="27" y="24" font-family="Inter,system-ui" font-weight="800" font-size="17" fill="#ffffff">STROM</text>
-            <text x="97" y="24" font-family="Inter,system-ui" font-weight="300" font-size="17" fill="#7a95b0" letter-spacing="1">WERK</text>
-          </svg>
-        </a>
-        <p>Intelligente Energiesysteme für Gewerbe und Industrie. Wir entwickeln wirtschaftliche Energielösungen – keine Produkte.</p>
+        <svg width="150" height="34" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="16,1 7,19 13,19 4,37 22,14 16,14" fill="#22d353"/><text x="30" y="27" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="19" fill="#ffffff">STROM</text><text x="108" y="27" font-family="Inter,system-ui,sans-serif" font-weight="300" font-size="19" fill="#94a3b8" letter-spacing="1">WERK</text></svg>
+        <p>Schlüsselfertige Photovoltaik- und Elektroinstallationen in ganz Österreich.</p>
       </div>
-      <div class="footer-col">
-        <h5>Leistungen</h5>
-        <ul>
-          <li><a href="leistungen.html#energieberatung">Energieberatung</a></li>
-          <li><a href="leistungen.html#batteriespeicher">Batteriespeicher</a></li>
-          <li><a href="leistungen.html#photovoltaik">Photovoltaik & E-Mobility</a></li>
-          <li><a href="leistungen.html#elektroplanung">Elektroplanung</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Unternehmen</h5>
-        <ul>
-          <li><a href="ueber-uns.html">Über uns</a></li>
-          <li><a href="referenzen.html">Referenzen</a></li>
-          <li><a href="kontakt.html">Kontakt</a></li>
-          <li><a href="impressum.html">Impressum</a></li>
-          <li><a href="datenschutz.html">Datenschutz</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Kontakt</h5>
-        <ul class="footer-contact-list">
-          <li>Schillerstraße 7, 4600 Wels</li>
-          <li><a href="tel:+436641262848">+43 664 1262848</a></li>
-          <li><a href="mailto:hetzmannseder@stromwerker.at">hetzmannseder@stromwerker.at</a></li>
-        </ul>
-      </div>
+      <div class="footer-col"><h5>Navigation</h5><ul><li><a href="index.html">Startseite</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="footer-col"><h5>Leistungen</h5><ul><li><a href="leistungen.html">Photovoltaik</a></li><li><a href="leistungen.html">E-Mobilität</a></li><li><a href="leistungen.html">Elektroinstallation</a></li><li><a href="leistungen.html">Rollout-Projekte</a></li></ul></div>
+      <div class="footer-col"><h5>Kontakt</h5><ul class="footer-contact-list"><li>SRW Solarenergie GmbH</li><li><a href="tel:+437242318099">07242 / 31 80 99</a></li><li><a href="mailto:office@stromwerker.at">office@stromwerker.at</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>© 2026 SRW Solarenergie GmbH – Die Stromwerker. Alle Rechte vorbehalten.</p>
-      <div class="footer-legal">
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutz</a>
-      </div>
+      <div class="footer-legal"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></div>
     </div>
   </div>
 </footer>
-
-<!-- ── LIGHTBOX JS ──────────────────────────────── -->
-<script>
-  let lbImages = [], lbIndex = 0, lbTitle = '';
-
-  function openLightbox(card) {
-    lbImages = JSON.parse(card.dataset.images);
-    lbTitle  = card.dataset.title;
-    lbIndex  = 0;
-    document.getElementById('lbTitle').textContent = lbTitle;
-    buildThumbs();
-    showImage(0);
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function showImage(idx) {
-    const img = document.getElementById('lbImg');
-    img.classList.add('fading');
-    setTimeout(() => {
-      img.src = lbImages[idx];
-      img.alt = lbTitle + ' – Bild ' + (idx + 1);
-      img.classList.remove('fading');
-    }, 150);
-    document.getElementById('lbCounter').textContent = (idx + 1) + ' / ' + lbImages.length;
-    document.getElementById('lbPrev').disabled = idx === 0;
-    document.getElementById('lbNext').disabled = idx === lbImages.length - 1;
-    // Update thumb highlights
-    document.querySelectorAll('.lb-thumb').forEach((t, i) => {
-      t.classList.toggle('active', i === idx);
-    });
-    lbIndex = idx;
-  }
-
-  function navigate(dir) {
-    const next = lbIndex + dir;
-    if (next >= 0 && next < lbImages.length) showImage(next);
-  }
-
-  function buildThumbs() {
-    const container = document.getElementById('lbThumbs');
-    container.innerHTML = '';
-    lbImages.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.className = 'lb-thumb' + (i === 0 ? ' active' : '');
-      img.onclick = () => showImage(i);
-      img.alt = 'Vorschau ' + (i + 1);
-      container.appendChild(img);
-    });
-  }
-
-  // Keyboard navigation
-  document.addEventListener('keydown', e => {
-    const lb = document.getElementById('lightbox');
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'ArrowLeft')  navigate(-1);
-    if (e.key === 'ArrowRight') navigate(1);
-    if (e.key === 'Escape')     closeLightbox();
-  });
-
-  // Click outside image to close
-  document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox') ||
-        e.target.classList.contains('lb-stage')) closeLightbox();
-  });
-
-  // Touch swipe support
-  let touchStartX = 0;
-  document.getElementById('lightbox').addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-  document.getElementById('lightbox').addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
-  }, { passive: true });
-</script>
-
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">&#x2715;</button>
+  <div class="lb-main">
+    <button class="lb-arrow lb-prev" onclick="navigate(-1)">&#8592;</button>
+    <img id="lb-img" src="" alt="">
+    <button class="lb-arrow lb-next" onclick="navigate(1)">&#8594;</button>
+  </div>
+  <div class="lb-caption" id="lb-caption"></div>
+  <div class="lb-sub" id="lb-sub"></div>
+  <div class="lb-thumbs" id="lb-thumbs"></div>
+</div>
 <script src="js/main.js" defer></script>
+<script>
+var PROJECTS=[
+  {slug:'shell-tankstelle',title:'Shell Tankstelle',location:'Oberösterreich',cat:'shell',lat:48.165,lng:14.025,imgs:5,desc:'Photovoltaik-Dachanlage mit Fronius-Wechselrichter'},
+  {slug:'shell-bidnermichl-linz',title:'Shell Bidnermichl',location:'Linz, OÖ',cat:'shell',lat:48.302,lng:14.284,imgs:1,desc:'Photovoltaik-Dachanlage am Tankstellengebäude'},
+  {slug:'shell-eberstalzell',title:'Shell Eberstalzell',location:'Eberstalzell, OÖ',cat:'shell',lat:48.052,lng:13.965,imgs:2,desc:'Photovoltaik-Anlage und Elektroinstallation'},
+  {slug:'shell-franckstrasse-linz',title:'Shell Franckstraße',location:'Linz, OÖ',cat:'shell',lat:48.295,lng:14.297,imgs:3,desc:'Photovoltaik-Dachanlage mit Netzeinspeisung'},
+  {slug:'shell-haag',title:'Shell Haag',location:'Haag am Hausruck, OÖ',cat:'shell',lat:48.178,lng:13.643,imgs:1,desc:'Modulinstallation und Elektroanbindung'},
+  {slug:'shell-krems',title:'Shell Krems',location:'Krems an der Donau, NÖ',cat:'shell',lat:48.410,lng:15.614,imgs:1,desc:'Photovoltaik-Dachanlage, schlüsselfertig'},
+  {slug:'shell-mauthausen',title:'Shell Mauthausen',location:'Mauthausen, OÖ',cat:'shell',lat:48.254,lng:14.527,imgs:2,desc:'PV-Anlage mit Anschluss an Eigenverbrauch'},
+  {slug:'shell-perg',title:'Shell Perg',location:'Perg, OÖ',cat:'shell',lat:48.251,lng:14.633,imgs:2,desc:'Photovoltaik-Installation auf Tankstellendach'},
+  {slug:'shell-pochlarn',title:'Shell Pöchlarn',location:'Pöchlarn, NÖ',cat:'shell',lat:48.209,lng:15.214,imgs:2,desc:'Photovoltaik-Dachanlage, Komplettinstallation'},
+  {slug:'shell-rohrbach',title:'Shell Rohrbach',location:'Rohrbach-Berg, OÖ',cat:'shell',lat:48.573,lng:13.993,imgs:3,desc:'PV-Anlage mit Wechselrichter und Einspeisung'},
+  {slug:'shell-schrick',title:'Shell Schrick',location:'Schrick, NÖ',cat:'shell',lat:48.450,lng:16.483,imgs:4,desc:'Photovoltaik-Installation, Elektroplanung'},
+  {slug:'shell-schwanenstadt',title:'Shell Schwanenstadt',location:'Schwanenstadt, OÖ',cat:'shell',lat:48.057,lng:13.772,imgs:2,desc:'Dach-PV mit Direktverbrauchsoptimierung'},
+  {slug:'shell-siemenstrasse-wien',title:'Shell Siemensstraße',location:'Wien',cat:'shell',lat:48.252,lng:16.373,imgs:4,desc:'Photovoltaik-Dachanlage Wien, Floridsdorf'},
+  {slug:'shell-traiskirchen',title:'Shell Traiskirchen',location:'Traiskirchen, NÖ',cat:'shell',lat:48.017,lng:16.294,imgs:3,desc:'PV-Dachanlage, schlüsselfertige Umsetzung'},
+  {slug:'shell-traun',title:'Shell Traun',location:'Traun, OÖ',cat:'shell',lat:48.225,lng:14.238,imgs:3,desc:'Photovoltaik-Installation mit Eigenverbrauch'},
+  {slug:'shell-unterweitersdorf',title:'Shell Unterweitersdorf',location:'Unterweitersdorf, OÖ',cat:'shell',lat:48.295,lng:14.537,imgs:1,desc:'PV-Dachanlage, Elektroinstallation'},
+  {slug:'weixelbaumer-wels',title:'Weixelbaumer',location:'Wels, OÖ',cat:'gewerbe',lat:48.163,lng:14.032,imgs:1,desc:'Großflächige Industrie-PV-Anlage'},
+  {slug:'st-valentin',title:'Gewerbekomplex St. Valentin',location:'St. Valentin, NÖ',cat:'gewerbe',lat:48.172,lng:14.526,imgs:5,star:true,desc:'3 Hallen mit Büros & Fitnessstudio – 2.200 PV-Module, 920 kW (8 Huawei-WR), 12 E-Ladepunkte, Askoma-Lastmanagement. Gesamte Elektroinstallation inkl. IT-Netz, Notbeleuchtung, RWA & Zugangskontrolle.'},
+  {slug:'uweg-wels',title:'UWEG',location:'Wels, OÖ',cat:'gewerbe',lat:48.160,lng:14.022,imgs:3,desc:'Industrie-PV-Anlage an der Traun'}
+];
+var grid=document.getElementById('projects-grid');
+PROJECTS.forEach(function(p,idx){
+  var card=document.createElement('article');
+  card.className='project-card fade-up'+(p.star?' star':'');
+  card.dataset.category=p.cat;
+  var catLabel=p.cat==='shell'?'Shell Tankstelle':'Gewerbe & Industrie';
+  var badge=p.imgs>1?'<span class="card-img-count">&#9638; '+p.imgs+' Fotos</span>':'';
+  var starBadge=p.star?'<div class="star-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Vorzeigeprojekt</div>':'';
+  card.innerHTML='<div class="card-img"><img src="img/'+p.slug+'/01.jpg" alt="'+p.title+'" loading="lazy">'+badge+'</div><div class="card-body">'+starBadge+'<div class="card-cat '+p.cat+'">'+catLabel+'</div><h3 class="card-title">'+p.title+'</h3><div class="card-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'+p.location+'</div><p class="card-desc">'+p.desc+'</p></div>';
+  card.addEventListener('click',function(){openLightbox(idx);});
+  grid.appendChild(card);
+});
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var f=btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(function(card){
+      card.classList.toggle('hidden',f!=='all'&&card.dataset.category!==f);
+    });
+  });
+});
+(function(){
+  if(typeof L==='undefined'){return;}
+  var map=L.map('ref-map',{center:[47.7,14.2],zoom:7,scrollWheelZoom:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
+  var pin=L.divIcon({className:'',html:'<div class="map-pin"></div>',iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]});
+  PROJECTS.forEach(function(p){
+    var lbl=p.cat==='shell'?'Shell Tankstelle':'Gewerbe & Industrie';
+    L.marker([p.lat,p.lng],{icon:pin}).addTo(map).bindPopup('<strong>'+p.title+'</strong><span>'+p.location+'</span><span class="pop-cat '+p.cat+'">'+lbl+'</span>');
+  });
+  map.on('click',function(){map.scrollWheelZoom.enable();});
+  map.on('mouseout',function(){map.scrollWheelZoom.disable();});
+  setTimeout(function(){map.invalidateSize();},100);
+})();
+var lbIdx=0,lbImgs=[];
+function openLightbox(idx){
+  var p=PROJECTS[idx];
+  lbImgs=[];
+  for(var i=1;i<=p.imgs;i++){lbImgs.push({src:'img/'+p.slug+'/'+String(i).padStart(2,'0')+'.jpg',cap:p.title,sub:p.location});}
+  lbIdx=0;renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderLightbox(){
+  document.getElementById('lb-img').src=lbImgs[lbIdx].src;
+  document.getElementById('lb-img').alt=lbImgs[lbIdx].cap;
+  document.getElementById('lb-caption').textContent=lbImgs[lbIdx].cap;
+  document.getElementById('lb-sub').textContent=lbImgs[lbIdx].sub;
+  var t=document.getElementById('lb-thumbs');t.innerHTML='';
+  lbImgs.forEach(function(im,i){var th=document.createElement('img');th.src=im.src;th.className='lb-thumb'+(i===lbIdx?' active':'');th.onclick=function(){lbIdx=i;renderLightbox();};t.appendChild(th);});
+}
+function navigate(dir){lbIdx=(lbIdx+dir+lbImgs.length)%lbImgs.length;renderLightbox();}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){
+  var lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLightbox();
+  if(e.key==='ArrowLeft')navigate(-1);
+  if(e.key==='ArrowRight')navigate(1);
+});
+var tsX=0;
+document.getElementById('lightbox').addEventListener('touchstart',function(e){tsX=e.touches[0].clientX;},{passive:true});
+document.getElementById('lightbox').addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tsX;if(Math.abs(dx)>50)navigate(dx<0?1:-1);},{passive:true});
+</script>
 </body>
 </html>
