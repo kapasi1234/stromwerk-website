@@ -534,3 +534,5 @@ textarea.form-control { resize:vertical; min-height:130px; }
   cursor:pointer;
 }
 
+
+@keyframes spin { to { transform: rotate(360deg); } }
